@@ -128,7 +128,9 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 
 /* ---------- colour picker ---------- */
 details summary { cursor: pointer; font-size: 14px; margin: 6px 0; color: var(--text); }
-.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(34px, 1fr)); gap: 6px; margin-top: 8px; }
+/* One line per colour row (greys, reds & oranges, ...), lightest on the left. */
+.swatch-grid { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.swatch-row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 4px; }
 .swatch {
   aspect-ratio: 1; border-radius: 7px; border: 2px solid transparent; cursor: pointer; position: relative; padding: 0;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
@@ -137,8 +139,8 @@ details summary { cursor: pointer; font-size: 14px; margin: 6px 0; color: var(--
 .swatch[aria-pressed="false"] { opacity: .28; }
 .swatch[aria-pressed="true"]:not(.free) { border-color: var(--accent); }
 .swatch[aria-pressed="true"]:not(.free)::after {
-  content: "✓"; position: absolute; right: -6px; top: -8px; background: var(--accent); color: var(--accent-text);
-  font-size: 10px; font-weight: 800; width: 15px; height: 15px; border-radius: 50%; display: grid; place-items: center;
+  content: "✓"; position: absolute; right: -5px; top: -6px; background: var(--accent); color: var(--accent-text);
+  font-size: 9px; font-weight: 800; width: 13px; height: 13px; z-index: 1; border-radius: 50%; display: grid; place-items: center;
 }
 
 /* ---------- stage (pixel canvas) ---------- */

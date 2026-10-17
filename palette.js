@@ -2,387 +2,389 @@
 const WORLDPLACE_PALETTE = [
  {
   "id": 1,
-  "name": "Snow",
-  "hex": "f5f5f0",
-  "premium": false
- },
- {
-  "id": 2,
-  "name": "Charcoal",
-  "hex": "23272f",
-  "premium": false
- },
- {
-  "id": 3,
-  "name": "Coral",
-  "hex": "ef474a",
-  "premium": false
- },
- {
-  "id": 4,
-  "name": "Orange",
-  "hex": "ff913e",
-  "premium": false
- },
- {
-  "id": 5,
-  "name": "Sun",
-  "hex": "ffd84c",
-  "premium": false
- },
- {
-  "id": 6,
-  "name": "Leaf",
-  "hex": "45be6f",
-  "premium": false
- },
- {
-  "id": 7,
-  "name": "Ocean",
-  "hex": "3084de",
-  "premium": false
- },
- {
-  "id": 8,
-  "name": "Violet",
-  "hex": "975bda",
-  "premium": false
- },
- {
-  "id": 9,
   "name": "White",
   "hex": "ffffff",
   "premium": false
  },
  {
-  "id": 10,
+  "id": 2,
   "name": "Silver",
   "hex": "c3c9d2",
   "premium": false
  },
  {
+  "id": 3,
+  "name": "Grey",
+  "hex": "858585",
+  "premium": false
+ },
+ {
+  "id": 4,
+  "name": "Steel",
+  "hex": "696a6a",
+  "premium": false
+ },
+ {
+  "id": 5,
+  "name": "Smoke",
+  "hex": "423934",
+  "premium": false
+ },
+ {
+  "id": 6,
+  "name": "Charcoal",
+  "hex": "221c1a",
+  "premium": false
+ },
+ {
+  "id": 7,
+  "name": "Black",
+  "hex": "000000",
+  "premium": false
+ },
+ {
+  "id": 8,
+  "name": "Orange",
+  "hex": "f58122",
+  "premium": false
+ },
+ {
+  "id": 9,
+  "name": "Red",
+  "hex": "ea323c",
+  "premium": false
+ },
+ {
+  "id": 10,
+  "name": "Brick",
+  "hex": "ac3232",
+  "premium": false
+ },
+ {
   "id": 11,
-  "name": "Slate",
-  "hex": "697382",
+  "name": "Maroon",
+  "hex": "6e2727",
   "premium": false
  },
  {
   "id": 12,
-  "name": "Black",
-  "hex": "0d1016",
+  "name": "Peach",
+  "hex": "eec39a",
   "premium": false
  },
  {
   "id": 13,
-  "name": "Rose",
-  "hex": "f77e97",
+  "name": "Tan",
+  "hex": "ab947a",
   "premium": false
  },
  {
   "id": 14,
-  "name": "Ruby",
-  "hex": "be263e",
-  "premium": false
- },
- {
-  "id": 15,
-  "name": "Peach",
-  "hex": "ffbc94",
-  "premium": false
- },
- {
-  "id": 16,
-  "name": "Amber",
-  "hex": "e0771e",
-  "premium": false
- },
- {
-  "id": 17,
-  "name": "Cream",
-  "hex": "ffefae",
-  "premium": false
- },
- {
-  "id": 18,
-  "name": "Gold",
-  "hex": "e0ae1e",
-  "premium": false
- },
- {
-  "id": 19,
-  "name": "Mint",
-  "hex": "96e7bc",
-  "premium": false
- },
- {
-  "id": 20,
-  "name": "Forest",
-  "hex": "1f7949",
-  "premium": false
- },
- {
-  "id": 21,
-  "name": "Aqua",
-  "hex": "5bdbd3",
-  "premium": false
- },
- {
-  "id": 22,
-  "name": "Teal",
-  "hex": "168491",
-  "premium": false
- },
- {
-  "id": 23,
-  "name": "Sky",
-  "hex": "7ec2ff",
-  "premium": false
- },
- {
-  "id": 24,
-  "name": "Navy",
-  "hex": "204585",
-  "premium": false
- },
- {
-  "id": 25,
-  "name": "Lavender",
-  "hex": "c9abf8",
-  "premium": false
- },
- {
-  "id": 26,
-  "name": "Plum",
-  "hex": "693691",
-  "premium": false
- },
- {
-  "id": 27,
-  "name": "Pink",
-  "hex": "f475cf",
-  "premium": false
- },
- {
-  "id": 28,
-  "name": "Magenta",
-  "hex": "b72c92",
-  "premium": false
- },
- {
-  "id": 29,
-  "name": "Sand",
-  "hex": "d3b88b",
-  "premium": false
- },
- {
-  "id": 30,
   "name": "Brown",
   "hex": "754e36",
   "premium": false
  },
  {
+  "id": 15,
+  "name": "Mocha",
+  "hex": "5a4e44",
+  "premium": false
+ },
+ {
+  "id": 16,
+  "name": "Cream",
+  "hex": "fef3c0",
+  "premium": false
+ },
+ {
+  "id": 17,
+  "name": "Yellow",
+  "hex": "fad937",
+  "premium": false
+ },
+ {
+  "id": 18,
+  "name": "Mint",
+  "hex": "a6fcdb",
+  "premium": false
+ },
+ {
+  "id": 19,
+  "name": "Lime",
+  "hex": "97ff2f",
+  "premium": false
+ },
+ {
+  "id": 20,
+  "name": "Sage",
+  "hex": "b2ba90",
+  "premium": false
+ },
+ {
+  "id": 21,
+  "name": "Green",
+  "hex": "55b33b",
+  "premium": false
+ },
+ {
+  "id": 22,
+  "name": "Sea Green",
+  "hex": "547e64",
+  "premium": false
+ },
+ {
+  "id": 23,
+  "name": "Moss",
+  "hex": "4b692f",
+  "premium": false
+ },
+ {
+  "id": 24,
+  "name": "Cyan",
+  "hex": "5fcde4",
+  "premium": false
+ },
+ {
+  "id": 25,
+  "name": "Periwinkle",
+  "hex": "7e7ef2",
+  "premium": false
+ },
+ {
+  "id": 26,
+  "name": "Blue",
+  "hex": "1c53c2",
+  "premium": false
+ },
+ {
+  "id": 27,
+  "name": "Midnight",
+  "hex": "0c0293",
+  "premium": false
+ },
+ {
+  "id": 28,
+  "name": "Purple",
+  "hex": "773bbf",
+  "premium": false
+ },
+ {
+  "id": 29,
+  "name": "Plum",
+  "hex": "6b3e75",
+  "premium": false
+ },
+ {
+  "id": 30,
+  "name": "Lilac",
+  "hex": "eaaded",
+  "premium": false
+ },
+ {
   "id": 31,
-  "name": "Olive",
-  "hex": "848b36",
+  "name": "Pink",
+  "hex": "ff69b4",
   "premium": false
  },
  {
   "id": 32,
-  "name": "Ice",
-  "hex": "cdeff5",
+  "name": "Magenta",
+  "hex": "db3ffd",
   "premium": false
  },
  {
   "id": 33,
-  "name": "Neon Red",
-  "hex": "ff2a3e",
+  "name": "Dove",
+  "hex": "a69a9c",
   "premium": true
  },
  {
   "id": 34,
-  "name": "Neon Orange",
-  "hex": "ff681f",
-  "premium": true
- },
- {
-  "id": 35,
-  "name": "Neon Yellow",
-  "hex": "fff12d",
-  "premium": true
- },
- {
-  "id": 36,
-  "name": "Neon Lime",
-  "hex": "97ff2f",
-  "premium": true
- },
- {
-  "id": 37,
-  "name": "Neon Green",
-  "hex": "1fee70",
-  "premium": true
- },
- {
-  "id": 38,
-  "name": "Neon Cyan",
-  "hex": "20ebef",
-  "premium": true
- },
- {
-  "id": 39,
-  "name": "Neon Blue",
-  "hex": "2a66ff",
-  "premium": true
- },
- {
-  "id": 40,
-  "name": "Neon Purple",
-  "hex": "ae39ff",
-  "premium": true
- },
- {
-  "id": 41,
-  "name": "Neon Pink",
-  "hex": "ff34be",
-  "premium": true
- },
- {
-  "id": 42,
-  "name": "Crimson",
-  "hex": "791225",
-  "premium": true
- },
- {
-  "id": 43,
-  "name": "Copper",
-  "hex": "b5562f",
-  "premium": true
- },
- {
-  "id": 44,
-  "name": "Lemon",
-  "hex": "eaff7a",
-  "premium": true
- },
- {
-  "id": 45,
-  "name": "Emerald",
-  "hex": "129d5e",
-  "premium": true
- },
- {
-  "id": 46,
-  "name": "Turquoise",
-  "hex": "14b0b1",
-  "premium": true
- },
- {
-  "id": 47,
-  "name": "Cobalt",
-  "hex": "1c53c2",
-  "premium": true
- },
- {
-  "id": 48,
-  "name": "Indigo",
-  "hex": "4a2fa3",
-  "premium": true
- },
- {
-  "id": 49,
-  "name": "Fuchsia",
-  "hex": "d11f9b",
-  "premium": true
- },
- {
-  "id": 50,
-  "name": "Blush",
-  "hex": "ffcbd6",
-  "premium": true
- },
- {
-  "id": 51,
-  "name": "Apricot",
-  "hex": "ffd3a4",
-  "premium": true
- },
- {
-  "id": 52,
-  "name": "Chartreuse",
-  "hex": "c7eb59",
-  "premium": true
- },
- {
-  "id": 53,
-  "name": "Seafoam",
-  "hex": "a0f2d7",
-  "premium": true
- },
- {
-  "id": 54,
-  "name": "Powder Blue",
-  "hex": "b8daff",
-  "premium": true
- },
- {
-  "id": 55,
-  "name": "Lilac",
-  "hex": "ddc2ff",
-  "premium": true
- },
- {
-  "id": 56,
-  "name": "Hot Pink",
-  "hex": "ff69b4",
-  "premium": true
- },
- {
-  "id": 57,
-  "name": "Burgundy",
-  "hex": "5b1d36",
-  "premium": true
- },
- {
-  "id": 58,
-  "name": "Chocolate",
-  "hex": "523528",
-  "premium": true
- },
- {
-  "id": 59,
-  "name": "Moss",
-  "hex": "465d2e",
-  "premium": true
- },
- {
-  "id": 60,
-  "name": "Deep Teal",
-  "hex": "0d4d54",
-  "premium": true
- },
- {
-  "id": 61,
-  "name": "Midnight",
-  "hex": "14224a",
-  "premium": true
- },
- {
-  "id": 62,
-  "name": "Royal Purple",
-  "hex": "4d2380",
-  "premium": true
- },
- {
-  "id": 63,
   "name": "Warm Grey",
   "hex": "857874",
   "premium": true
  },
  {
+  "id": 35,
+  "name": "Graphite",
+  "hex": "5d5d5d",
+  "premium": true
+ },
+ {
+  "id": 36,
+  "name": "Espresso",
+  "hex": "322b28",
+  "premium": true
+ },
+ {
+  "id": 37,
+  "name": "Ink",
+  "hex": "141013",
+  "premium": true
+ },
+ {
+  "id": 38,
+  "name": "Blush",
+  "hex": "fabbaf",
+  "premium": true
+ },
+ {
+  "id": 39,
+  "name": "Coral",
+  "hex": "ff7070",
+  "premium": true
+ },
+ {
+  "id": 40,
+  "name": "Rust",
+  "hex": "8a4836",
+  "premium": true
+ },
+ {
+  "id": 41,
+  "name": "Crimson",
+  "hex": "8e251d",
+  "premium": true
+ },
+ {
+  "id": 42,
+  "name": "Beige",
+  "hex": "ead4aa",
+  "premium": true
+ },
+ {
+  "id": 43,
+  "name": "Camel",
+  "hex": "a08662",
+  "premium": true
+ },
+ {
+  "id": 44,
+  "name": "Taupe",
+  "hex": "796755",
+  "premium": true
+ },
+ {
+  "id": 45,
+  "name": "Bark",
+  "hex": "4c3e24",
+  "premium": true
+ },
+ {
+  "id": 46,
+  "name": "Lemon",
+  "hex": "fffc40",
+  "premium": true
+ },
+ {
+  "id": 47,
+  "name": "Mustard",
+  "hex": "b3b02d",
+  "premium": true
+ },
+ {
+  "id": 48,
+  "name": "Ochre",
+  "hex": "8a6f30",
+  "premium": true
+ },
+ {
+  "id": 49,
+  "name": "Olive",
+  "hex": "676633",
+  "premium": true
+ },
+ {
+  "id": 50,
+  "name": "Dark Olive",
+  "hex": "524b24",
+  "premium": true
+ },
+ {
+  "id": 51,
+  "name": "Fern",
+  "hex": "3e8948",
+  "premium": true
+ },
+ {
+  "id": 52,
+  "name": "Forest",
+  "hex": "23674e",
+  "premium": true
+ },
+ {
+  "id": 53,
+  "name": "Aqua",
+  "hex": "73eff7",
+  "premium": true
+ },
+ {
+  "id": 54,
+  "name": "Teal",
+  "hex": "0eaf9b",
+  "premium": true
+ },
+ {
+  "id": 55,
+  "name": "Petrol",
+  "hex": "477d85",
+  "premium": true
+ },
+ {
+  "id": 56,
+  "name": "Powder",
+  "hex": "b9bffb",
+  "premium": true
+ },
+ {
+  "id": 57,
+  "name": "Sky Blue",
+  "hex": "41a6f6",
+  "premium": true
+ },
+ {
+  "id": 58,
+  "name": "Dusk",
+  "hex": "484a77",
+  "premium": true
+ },
+ {
+  "id": 59,
+  "name": "Ultramarine",
+  "hex": "3003d9",
+  "premium": true
+ },
+ {
+  "id": 60,
+  "name": "Navy",
+  "hex": "143464",
+  "premium": true
+ },
+ {
+  "id": 61,
+  "name": "Violet",
+  "hex": "7a09fa",
+  "premium": true
+ },
+ {
+  "id": 62,
+  "name": "Aubergine",
+  "hex": "622461",
+  "premium": true
+ },
+ {
+  "id": 63,
+  "name": "Hot Pink",
+  "hex": "ff34be",
+  "premium": true
+ },
+ {
   "id": 64,
-  "name": "Pearl",
-  "hex": "eee4d8",
+  "name": "Raspberry",
+  "hex": "b72c92",
   "premium": true
  }
 ];
-if (typeof module !== "undefined") module.exports = WORLDPLACE_PALETTE;
+// Rows of similar colours, as shown in the game's palette bar.
+const WORLDPLACE_PALETTE_ROWS = [{"name": "Greys", "ids": [1, 2, 33, 3, 34, 4, 35, 5, 36, 6, 37, 7]}, {"name": "Reds & oranges", "ids": [38, 8, 39, 9, 10, 40, 41, 11]}, {"name": "Skin & browns", "ids": [42, 12, 13, 43, 44, 14, 15, 45]}, {"name": "Yellows", "ids": [16, 46, 17, 47, 48, 49, 50]}, {"name": "Greens", "ids": [18, 19, 20, 21, 51, 22, 23, 52]}, {"name": "Teals", "ids": [53, 24, 54, 55]}, {"name": "Blues", "ids": [56, 57, 25, 26, 58, 59, 60, 27]}, {"name": "Purples", "ids": [61, 28, 29, 62]}, {"name": "Pinks", "ids": [30, 31, 63, 32, 64]}];
+if (typeof module !== "undefined") module.exports = { palette: WORLDPLACE_PALETTE, rows: WORLDPLACE_PALETTE_ROWS };

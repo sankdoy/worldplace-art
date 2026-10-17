@@ -209,30 +209,6 @@
     return { counts, painted };
   }
 
-  // Same order as the game's palette bar (WorldMapUI.luau): greys first, then
-  // 30-degree hue families round the rainbow, each lightest to darkest.
-  function paletteDisplayOrder(colours) {
-    const entries = colours.map((colour) => {
-      const [r, g, b] = hexToRgb(colour.hex).map((v) => v / 255);
-      const max = Math.max(r, g, b);
-      const min = Math.min(r, g, b);
-      const value = max;
-      const saturation = max === 0 ? 0 : (max - min) / max;
-      let hue = 0;
-      if (max !== min) {
-        const d = max - min;
-        if (max === r) hue = ((g - b) / d + 6) % 6;
-        else if (max === g) hue = (b - r) / d + 2;
-        else hue = (r - g) / d + 4;
-        hue *= 60;
-      }
-      const family = saturation < 0.18 || value < 0.2 ? 0 : 1 + Math.floor(((hue + 15) % 360) / 30);
-      return { colour, family, value };
-    });
-    entries.sort((a, b) => a.family - b.family || b.value - a.value || a.colour.id - b.colour.id);
-    return entries.map((entry) => ({ ...entry.colour, family: entry.family }));
-  }
-
   // Order used for "next batch": the picture is split into 64x64 blocks (the
   // grid lines on screen), left to right then top to bottom, and each block is
   // read row by row. Batches are compact patches that are easy to find.
@@ -251,7 +227,7 @@
 
   const api = {
     buildPalette, nearestIndex, quantize, heightForWidth, countColours, rgbToOklab, hexToRgb,
-    paletteDisplayOrder, batchOrder, DITHER_OPTIONS,
+    batchOrder, DITHER_OPTIONS,
   };
   if (typeof module !== "undefined") module.exports = api;
   else root.WorldPlacePixelate = api;

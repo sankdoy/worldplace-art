@@ -7,10 +7,10 @@
   const Engine = window.WorldPlacePixelate;
   const Projects = window.WorldPlaceProjects;
   const PALETTE = WORLDPLACE_PALETTE; // from palette.js
+  const ROWS = WORLDPLACE_PALETTE_ROWS; // rows of similar colours, same as the game's palette bar
   const BY_ID = new Map(PALETTE.map((c) => [c.id, c]));
   const RGB = new Map(PALETTE.map((c) => [c.id, Engine.hexToRgb(c.hex)]));
-  const DISPLAY = Engine.paletteDisplayOrder(PALETTE);
-  const DISPLAY_RANK = new Map(DISPLAY.map((c, i) => [c.id, i]));
+  const DISPLAY_RANK = new Map(ROWS.flatMap((row) => row.ids).map((id, i) => [id, i]));
   const MAX_WIDTH = 1000;
   const MAX_BATCH = 5000;
   const RECHARGE_SECONDS = 30;
@@ -153,17 +153,25 @@
   function buildColourGrid() {
     const grid = $("colourGrid");
     grid.innerHTML = "";
-    for (const colour of DISPLAY) {
-      const swatch = document.createElement("button");
-      swatch.type = "button";
-      swatch.className = "swatch" + (colour.premium ? "" : " free");
-      swatch.style.background = `#${colour.hex}`;
-      swatch.title = `${colour.name}${colour.premium ? " (premium)" : " (free)"}`;
-      swatch.setAttribute("aria-label", swatch.title);
-      swatch.dataset.id = colour.id;
-      if (colour.premium) swatch.addEventListener("click", () => togglePremium(colour.id));
-      grid.appendChild(swatch);
+    for (const row of ROWS) {
+      const line = document.createElement("div");
+      line.className = "swatch-row";
+      line.title = row.name;
+      for (const id of row.ids) line.appendChild(makeSwatch(BY_ID.get(id)));
+      grid.appendChild(line);
     }
+  }
+
+  function makeSwatch(colour) {
+    const swatch = document.createElement("button");
+    swatch.type = "button";
+    swatch.className = "swatch" + (colour.premium ? "" : " free");
+    swatch.style.background = `#${colour.hex}`;
+    swatch.title = `${colour.name}${colour.premium ? " (premium)" : " (free)"}`;
+    swatch.setAttribute("aria-label", swatch.title);
+    swatch.dataset.id = colour.id;
+    if (colour.premium) swatch.addEventListener("click", () => togglePremium(colour.id));
+    return swatch;
   }
 
   function togglePremium(id) {
@@ -187,7 +195,7 @@
 
   function updateColourUI() {
     const owned = new Set(ownedColours().map((c) => c.id));
-    for (const swatch of $("colourGrid").children) swatch.setAttribute("aria-pressed", String(owned.has(Number(swatch.dataset.id))));
+    for (const swatch of $("colourGrid").querySelectorAll(".swatch")) swatch.setAttribute("aria-pressed", String(owned.has(Number(swatch.dataset.id))));
     $("ownAll").checked = settings.ownAll;
     const premiumCount = owned.size - 32;
     $("colourSummary").textContent = premiumCount === 0
