@@ -25,6 +25,9 @@ body {
   flex-direction: column;
 }
 [hidden] { display: none !important; }
+/* Owner tools only show after opening the site with ?owner once. */
+body:not(.owner) .owner-only { display: none !important; }
+.owner-only { margin-top: 12px; }
 h2 { font-size: 15px; margin: 0 0 10px; letter-spacing: .02em; display: flex; align-items: center; gap: 8px; }
 b { font-weight: 650; }
 

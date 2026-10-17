@@ -132,6 +132,10 @@
         <p id="batchAdvice" class="hint"></p>
         <p class="tip"><b>Tip: save small batches often.</b> You can draft up to 5,000 pixels, but big drafts lag the game and you can only CONFIRM as many changed pixels as you have charges. A few hundred to a couple of thousand at a time is best, and every CONFIRM saves your place.</p>
         <button id="startProject" class="btn primary" disabled>Save as project &amp; start tracking →</button>
+        <div class="owner-only">
+          <button id="copyRoblox" class="btn" disabled>Copy for Roblox (owner import)</button>
+          <p class="hint">Owner only: in game open OWNER → IMPORT ART and paste. Other players can't use this text.</p>
+        </div>
       </section>
 
       <section class="card">
@@ -231,6 +235,7 @@
           <button id="trackPng" class="btn small">Download PNG</button>
           <button id="deleteProject" class="btn small danger">Delete</button>
         </div>
+        <button id="trackCopyRoblox" class="btn small owner-only">Copy for Roblox (owner import)</button>
         <p id="saveStatus" class="hint">Saved in this browser.</p>
       </section>
     </aside>

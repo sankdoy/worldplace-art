@@ -126,6 +126,34 @@
   }
   const byDisplayOrder = (a, b) => DISPLAY_RANK.get(a) - DISPLAY_RANK.get(b);
 
+  // ---------- owner tools: open the site once with ?owner (or ?owner=0 to hide) ----------
+  const ownerParam = new URLSearchParams(location.search).get("owner");
+  if (ownerParam !== null) {
+    try {
+      if (ownerParam === "0") localStorage.removeItem("wp.owner");
+      else localStorage.setItem("wp.owner", "1");
+    } catch (error) { /* ignore */ }
+  }
+  const ownerMode = ownerParam === null ? load("wp.owner", 0) === 1 : ownerParam !== "0";
+  document.body.classList.toggle("owner", ownerMode);
+
+  // Copies the picture as text for the game's OWNER > IMPORT ART panel.
+  async function copyForRoblox(name, width, height, cells) {
+    const text = Projects.encodeForRoblox(width, height, cells);
+    let painted = 0;
+    for (const id of cells) if (id) painted++;
+    const parts = Math.ceil(painted / 5000);
+    const summary = `${fmt(painted)} pixels, ${parts} part${parts === 1 ? "" : "s"} of up to 5,000, ${fmt(text.length)} characters`;
+    try {
+      await navigator.clipboard.writeText(text);
+      toast(`Copied (${summary}). In game: OWNER → IMPORT ART → paste.`);
+    } catch (error) {
+      // Clipboard blocked (some browsers): save it as a file to open and copy instead.
+      download(new Blob([text], { type: "text/plain" }), `${safeName(name)}-roblox.txt`);
+      toast(`Couldn't copy, so it was saved as a .txt file instead (${summary}).`);
+    }
+  }
+
   // =====================================================================
   // Views
   // =====================================================================
@@ -393,6 +421,7 @@
     $("makeBusy").hidden = true;
     $("downloadPng").disabled = false;
     $("startProject").disabled = painted === 0;
+    $("copyRoblox").disabled = painted === 0;
     updatePlan();
     renderMakeLegend();
   }
@@ -561,6 +590,11 @@
       updatePlan();
     });
   }
+
+  $("copyRoblox").addEventListener("click", () => {
+    const r = make.result;
+    if (r) copyForRoblox(make.name, r.width, r.height, r.cells);
+  });
 
   $("startProject").addEventListener("click", () => {
     const r = make.result;
@@ -988,6 +1022,10 @@
   $("exportProject").addEventListener("click", () => {
     flushSave();
     exportProject(track.project);
+  });
+  $("trackCopyRoblox").addEventListener("click", () => {
+    const p = track.project;
+    copyForRoblox(p.name, p.width, p.height, p.cells);
   });
   $("trackPng").addEventListener("click", () => {
     const p = track.project;

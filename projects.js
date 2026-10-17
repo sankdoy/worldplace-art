@@ -150,7 +150,48 @@
     return hours % 24 ? `${dayText} ${hours % 24} h` : dayText;
   }
 
-  const api = { createProject, progress, serialize, deserialize, packBits, unpackBits, formatDuration };
+  // ---- Owner export: text the game's OWNER > IMPORT ART panel can read ----
+  // Format: "WP1 <width> <height> <pixels>". Pixels go row by row from the
+  // top-left. Each pixel is one character: colour id 1-64 is ROBLOX_ALPHABET[id - 1]
+  // and "." is empty. A number after a character repeats it, e.g. "A12" = 12 x
+  // colour 1. Must match src/shared/WorldMap/PixelArtImport.luau.
+  const ROBLOX_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+,-/";
+
+  function encodeForRoblox(width, height, cells) {
+    const parts = [`WP1 ${width} ${height} `];
+    let i = 0;
+    while (i < cells.length) {
+      const id = cells[i];
+      let run = 1;
+      while (i + run < cells.length && cells[i + run] === id) run++;
+      parts.push((id === 0 ? "." : ROBLOX_ALPHABET[id - 1]) + (run > 1 ? run : ""));
+      i += run;
+    }
+    return parts.join("");
+  }
+
+  function decodeForRoblox(text) {
+    const match = /^\s*WP1\s+(\d+)\s+(\d+)\s+([\s\S]*)$/.exec(text);
+    if (!match) throw new Error("Not WorldPlace pixel-art text.");
+    const width = Number(match[1]), height = Number(match[2]);
+    const cells = new Uint8Array(width * height);
+    let n = 0;
+    for (const [, symbol, digits] of match[3].replace(/\s+/g, "").matchAll(/(\D)(\d*)/g)) {
+      const id = symbol === "." ? 0 : ROBLOX_ALPHABET.indexOf(symbol) + 1;
+      if (id < 0 || (symbol !== "." && id === 0)) throw new Error("Unknown colour.");
+      const run = digits ? Number(digits) : 1;
+      if (n + run > cells.length) throw new Error("Too many pixels.");
+      cells.fill(id, n, n + run);
+      n += run;
+    }
+    if (n !== cells.length) throw new Error("Text is incomplete.");
+    return { width, height, cells };
+  }
+
+  const api = {
+    createProject, progress, serialize, deserialize, packBits, unpackBits, formatDuration,
+    encodeForRoblox, decodeForRoblox, ROBLOX_ALPHABET,
+  };
   if (typeof module !== "undefined") module.exports = api;
   else root.WorldPlaceProjects = api;
 })(typeof window !== "undefined" ? window : globalThis);
