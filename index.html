@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorldPlace Pixel Art</title>
+  <meta name="description" content="Turn any picture into a WorldPlace pixel-art guide using only the colours you own, then track your progress as you paint it in game.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Crect width='2' height='2' fill='%23ef474a'/%3E%3Crect x='2' width='2' height='2' fill='%23ffd84c'/%3E%3Crect y='2' width='2' height='2' fill='%233084de'/%3E%3Crect x='2' y='2' width='2' height='2' fill='%2345be6f'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span>WorldPlace <b>Pixel Art</b></span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" data-view="make" aria-selected="true">Make pixel art</button>
+      <button class="tab" role="tab" data-view="projects" aria-selected="false">My projects <span id="projectCount" class="pill">0</span></button>
+    </nav>
+  </header>
+
+  <p class="disclaimer">This site makes a <b>guide</b> for you to copy. It does not paint anything for you: you paint every pixel yourself in WorldPlace. Your pictures never leave your device.</p>
+
+  <!-- ============ MAKE PIXEL ART ============ -->
+  <main id="view-make" class="layout">
+    <aside class="controls">
+      <section class="card">
+        <h2><span class="step">1</span> Picture</h2>
+        <label id="dropZone" class="drop" tabindex="0">
+          <input id="fileInput" type="file" accept="image/*" hidden>
+          <img id="sourceThumb" alt="" hidden>
+          <span id="dropText"><b>Choose a picture</b><br>or drag it here, or paste with Ctrl/⌘+V</span>
+        </label>
+        <p id="sourceInfo" class="hint"></p>
+      </section>
+
+      <section class="card">
+        <h2><span class="step">2</span> Your colours</h2>
+        <p id="colourSummary" class="hint"></p>
+        <label class="check"><input id="ownAll" type="checkbox"> I own all 64 colours</label>
+        <details id="premiumDetails">
+          <summary>Pick the premium colours I've bought</summary>
+          <p class="hint">Free colours are always included. Tap a premium colour to add or remove it.</p>
+          <div id="colourGrid" class="swatch-grid"></div>
+          <div class="row">
+            <button id="premiumNone" class="btn small">Free colours only</button>
+          </div>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2><span class="step">3</span> Size</h2>
+        <div class="row">
+          <label class="field">Width (pixels)
+            <input id="widthInput" type="number" min="1" max="1000" value="64" inputmode="numeric">
+          </label>
+          <div class="field">Height
+            <output id="heightOut" class="big-number">–</output>
+          </div>
+        </div>
+        <p class="hint">Height follows the picture's shape automatically.</p>
+        <div class="row">
+          <button id="rotateBtn" class="btn small" title="Rotate 90°">⟳ Rotate</button>
+          <button id="flipHBtn" class="btn small" title="Flip left-right">⇋ Flip</button>
+          <button id="flipVBtn" class="btn small" title="Flip upside down">⇅ Flip</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><span class="step">4</span> Look</h2>
+        <label class="field">Dithering (mixes colours to fake shading)
+          <select id="ditherSelect"></select>
+        </label>
+        <label class="field slider">Dither strength <output id="strengthOut">100%</output>
+          <input id="strengthInput" type="range" min="0" max="100" value="100">
+        </label>
+        <label class="field slider">Brightness <output id="brightnessOut">0</output>
+          <input id="brightnessInput" type="range" min="-100" max="100" value="0">
+        </label>
+        <label class="field slider">Contrast <output id="contrastOut">0</output>
+          <input id="contrastInput" type="range" min="-100" max="100" value="0">
+        </label>
+        <label class="field slider">Saturation <output id="saturationOut">0</output>
+          <input id="saturationInput" type="range" min="-100" max="100" value="0">
+        </label>
+        <button id="resetLook" class="btn small">Reset look</button>
+      </section>
+    </aside>
+
+    <section class="stage-area">
+      <div class="stage-toolbar">
+        <button id="makeFit" class="btn small">Fit</button>
+        <button id="makeZoomOut" class="btn small" aria-label="Zoom out">−</button>
+        <button id="makeZoomIn" class="btn small" aria-label="Zoom in">+</button>
+        <label class="check"><input id="makeGrid" type="checkbox" checked> Lines every 64</label>
+        <span class="spacer"></span>
+        <select id="pngScale" aria-label="PNG size">
+          <option value="1">PNG: 1 px per pixel</option>
+          <option value="8" selected>PNG: big (8×)</option>
+        </select>
+        <button id="downloadPng" class="btn small" disabled>Download PNG</button>
+      </div>
+      <div class="stage" id="makeStage">
+        <canvas id="makeCanvas"></canvas>
+        <div id="makeEmpty" class="stage-empty">Choose a picture to begin.</div>
+        <div id="makeBusy" class="busy" hidden>Working…</div>
+      </div>
+
+      <section class="card plan">
+        <h2><span class="step">5</span> Painting plan</h2>
+        <div class="stats">
+          <div><span class="label">Pixels to paint</span><span id="statPixels" class="big-number">–</span><span class="hint">not counting transparent</span></div>
+          <div><span class="label">Batches</span><span id="statBatches" class="big-number">–</span><span id="statBatchesHint" class="hint"></span></div>
+          <div><span class="label">Charge time, all pixels</span><span id="statTime" class="big-number">–</span><span class="hint">1 charge every 30 s</span></div>
+        </div>
+        <div class="row">
+          <label class="field">My charge capacity
+            <input id="capacityInput" type="number" min="1" max="3000" value="30" inputmode="numeric">
+          </label>
+          <label class="field">Batch size (pixels per CONFIRM)
+            <input id="batchInput" type="number" min="1" max="5000" value="30" inputmode="numeric">
+          </label>
+        </div>
+        <div class="row presets" id="batchPresets">
+          <button class="btn small" data-batch="cap">Use my capacity</button>
+          <button class="btn small" data-batch="250">250</button>
+          <button class="btn small" data-batch="500">500</button>
+          <button class="btn small" data-batch="1000">1,000</button>
+          <button class="btn small" data-batch="2000">2,000</button>
+        </div>
+        <p id="batchAdvice" class="hint"></p>
+        <p class="tip"><b>Tip: save small batches often.</b> You can draft up to 5,000 pixels, but big drafts lag the game and you can only CONFIRM as many changed pixels as you have charges. A few hundred to a couple of thousand at a time is best, and every CONFIRM saves your place.</p>
+        <button id="startProject" class="btn primary" disabled>Save as project &amp; start tracking →</button>
+      </section>
+
+      <section class="card">
+        <h2>Colours used</h2>
+        <div id="makeLegend" class="legend"><p class="hint">Nothing yet.</p></div>
+      </section>
+    </section>
+  </main>
+
+  <!-- ============ MY PROJECTS ============ -->
+  <main id="view-projects" class="single" hidden>
+    <section class="card">
+      <div class="row between">
+        <h2>My projects</h2>
+        <label class="btn small">Import progress file
+          <input id="importInput" type="file" accept=".json,application/json" hidden>
+        </label>
+      </div>
+      <p class="hint">Projects are saved in this browser automatically. Use <b>Export</b> to keep a backup file or move a project to another device.</p>
+      <div id="projectList" class="project-list"></div>
+    </section>
+  </main>
+
+  <!-- ============ TRACKER (one project) ============ -->
+  <main id="view-tracker" class="layout tracker" hidden>
+    <section class="stage-area">
+      <div class="stage-toolbar">
+        <button id="backToProjects" class="btn small">← Projects</button>
+        <div class="seg" role="group" aria-label="Tool">
+          <button class="btn small" data-tool="done" aria-pressed="true">✓ Mark done</button>
+          <button class="btn small" data-tool="undone" aria-pressed="false">✗ Unmark</button>
+          <button class="btn small" data-tool="pan" aria-pressed="false">✋ Move</button>
+        </div>
+        <label class="inline">Brush
+          <select id="brushSize">
+            <option value="1">1</option><option value="3">3</option><option value="5">5</option><option value="9">9</option><option value="17">17</option>
+          </select>
+        </label>
+        <button id="undoMark" class="btn small" disabled>↶ Undo</button>
+        <span class="spacer"></span>
+        <button id="trackFit" class="btn small">Fit</button>
+        <button id="trackZoomOut" class="btn small" aria-label="Zoom out">−</button>
+        <button id="trackZoomIn" class="btn small" aria-label="Zoom in">+</button>
+        <label class="check"><input id="trackGrid" type="checkbox" checked> Lines every 64</label>
+      </div>
+      <div class="stage tall" id="trackStage">
+        <canvas id="trackCanvas"></canvas>
+      </div>
+      <p id="hoverInfo" class="hover-info">Tap or drag over pixels to mark them done. Pinch or scroll to zoom. Hold Space (or use ✋ Move) to drag the picture around.</p>
+    </section>
+
+    <aside class="controls">
+      <section class="card">
+        <input id="projectName" class="title-input" aria-label="Project name" maxlength="80">
+        <div class="progress"><div id="progressBar"></div></div>
+        <p id="progressText" class="progress-text"></p>
+        <p id="progressTime" class="hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>Next batch</h2>
+        <p class="hint">Highlights the next pixels to paint. Paint them in game, press CONFIRM there, then mark the batch done here.</p>
+        <div class="row">
+          <label class="field">Batch size
+            <input id="trackBatchSize" type="number" min="1" max="5000" inputmode="numeric">
+          </label>
+          <button id="batchToggle" class="btn">Show next batch</button>
+        </div>
+        <p id="batchInfo" class="hint"></p>
+        <button id="batchDone" class="btn primary" hidden>I pressed CONFIRM: mark batch done</button>
+      </section>
+
+      <section class="card">
+        <div class="row between">
+          <h2>Colours left</h2>
+          <button id="clearHighlight" class="btn small" hidden>Show all</button>
+        </div>
+        <p class="hint">Tap a colour to show only its pixels that are still to paint.</p>
+        <label class="check"><input id="brushOnlyColour" type="checkbox" checked> Brush only marks the highlighted colour</label>
+        <div id="trackLegend" class="legend clickable"></div>
+      </section>
+
+      <section class="card">
+        <h2>Where on the map</h2>
+        <p class="hint">Note where the top-left pixel goes so you can find it again (the LOCATIONS panel in game shows latitude and longitude, and you can save a bookmark).</p>
+        <div class="row">
+          <label class="field">Latitude <input id="locLat" maxlength="40" inputmode="decimal" placeholder="e.g. 51.5007"></label>
+          <label class="field">Longitude <input id="locLon" maxlength="40" inputmode="decimal" placeholder="e.g. -0.1246"></label>
+        </div>
+        <label class="field">Note <textarea id="locNote" rows="2" maxlength="500" placeholder="e.g. bookmark “Mural”, top-left is the corner of the park"></textarea></label>
+      </section>
+
+      <section class="card">
+        <h2>Save &amp; share</h2>
+        <div class="row">
+          <button id="exportProject" class="btn small">Export progress file</button>
+          <button id="trackPng" class="btn small">Download PNG</button>
+          <button id="deleteProject" class="btn small danger">Delete</button>
+        </div>
+        <p id="saveStatus" class="hint">Saved in this browser.</p>
+      </section>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <footer class="footer">Made for <b>WorldPlace</b> on Roblox. Everything runs in your browser; nothing is uploaded.</footer>
+
+  <script src="palette.js"></script>
+  <script src="pixelate.js"></script>
+  <script src="projects.js"></script>
+  <script src="viewer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
