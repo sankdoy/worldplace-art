@@ -41,7 +41,7 @@
   }
 
   const settings = Object.assign(
-    { ownAll: false, premium: [], capacity: 30, batch: null, dither: "none", strength: 100, brightness: 0, contrast: 0, saturation: 0, width: 64 },
+    { ownAll: false, premium: [], capacity: 100, batch: null, dither: "none", strength: 100, brightness: 0, contrast: 0, saturation: 0, width: 64 },
     load("wp.settings", {})
   );
   const saveSettings = () => store("wp.settings", settings);
@@ -533,7 +533,7 @@
   }
 
   function updatePlan() {
-    const capacity = clamp(settings.capacity, 1, 3000);
+    const capacity = clamp(settings.capacity, 1, 10000);
     const batch = batchSize();
     $("capacityInput").value = capacity;
     if (document.activeElement !== $("batchInput")) $("batchInput").value = batch;
@@ -560,7 +560,7 @@
   $("capacityInput").value = settings.capacity;
   $("capacityInput").addEventListener("input", (e) => {
     const value = Number(e.target.value);
-    if (value >= 1 && value <= 3000) {
+    if (value >= 1 && value <= 10000) {
       settings.capacity = Math.round(value);
       saveSettings();
       updatePlan();
